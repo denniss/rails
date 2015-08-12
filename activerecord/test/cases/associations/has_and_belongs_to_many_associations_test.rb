@@ -4,6 +4,8 @@ require 'models/computer'
 require 'models/project'
 require 'models/company'
 require 'models/customer'
+require 'models/nut'
+require 'models/bolt'
 require 'models/order'
 require 'models/categorization'
 require 'models/category'
@@ -95,7 +97,7 @@ end
 
 class HasAndBelongsToManyAssociationsTest < ActiveRecord::TestCase
   fixtures :accounts, :companies, :categories, :posts, :categories_posts, :developers, :projects, :developers_projects,
-           :parrots, :pirates, :parrots_pirates, :treasures, :price_estimates, :tags, :taggings, :computers
+           :parrots, :pirates, :parrots_pirates, :treasures, :price_estimates, :tags, :taggings, :computers, :nuts, :bolts
 
   def setup_data_for_habtm_case
     ActiveRecord::Base.connection.execute('delete from countries_treaties')
@@ -107,6 +109,12 @@ class HasAndBelongsToManyAssociationsTest < ActiveRecord::TestCase
     treaty = Treaty.new(:name => 'peace')
     treaty.treaty_id = 't1'
     country.treaties << treaty
+  end
+
+  def test_vanilla_habtm
+    nut = Nut.find_by(name: 'nut1')
+    nut.bolts = Bolt.all
+    assert_equal 2, nut.bolts.count
   end
 
   def test_marshal_dump

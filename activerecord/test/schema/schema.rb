@@ -112,6 +112,17 @@ ActiveRecord::Schema.define do
     t.boolean :has_fun, null: false, default: false
   end
 
+  create_table :bolts, force: :cascade do |t|
+    t.string   :name
+    t.datetime :created_at, null: false
+    t.datetime :updated_at, null: false
+  end
+
+  create_table :bolts_nuts, id: false, force: :cascade do |t|
+    t.integer :bolt_id, null: false
+    t.integer :nut_id, null: false
+  end
+
   create_table :bulbs, force: true do |t|
     t.integer :car_id
     t.string  :name
@@ -483,6 +494,12 @@ ActiveRecord::Schema.define do
     else
       t.decimal :atoms_in_universe, precision: 55, scale: 0
     end
+  end
+
+  create_table :nuts, force: :cascade do |t|
+    t.string   :name
+    t.datetime :created_at, null: false
+    t.datetime :updated_at, null: false
   end
 
   create_table :orders, force: true do |t|
